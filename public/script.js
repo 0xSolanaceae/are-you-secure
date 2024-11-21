@@ -5,10 +5,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function addInfo(label, value, className = '') {
         const info = document.createElement("div");
-        info.className = `info ${className}`;
+        info.className = `info ${className} initial`;
         info.innerHTML = `<strong>${label}:</strong> ${value}`;
-        infoDiv.insertBefore(info, infoDiv.firstChild); // Prepend the info
-        infoDiv.style.display = 'block'; // Make the info div visible
+        infoDiv.insertBefore(info, infoDiv.firstChild);
+        infoDiv.style.display = 'block';
+        requestAnimationFrame(() => {
+            info.classList.remove('initial');
+        });
     }
 
     function showNextStep(message, callback) {
@@ -18,10 +21,14 @@ document.addEventListener("DOMContentLoaded", function() {
         const nextButton = document.createElement("button");
         nextButton.textContent = "Next";
         nextButton.addEventListener("click", function() {
-            messageDiv.remove();
-            callback();
+            messageDiv.classList.add('fade-out');
+            setTimeout(() => {
+                messageDiv.remove();
+                callback();
+            }, 100);
         });
         messageDiv.appendChild(nextButton);
+        messageDiv.classList.add('fade-in');
         storyDiv.appendChild(messageDiv);
     }
 
@@ -32,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 .then(response => response.json())
                 .then(data => {
                     addInfo("Public IP Address", data.ip, 'shocking');
-                    showNextStep("Your public IP address is visible to every website you visit. Imagine what someone could do with this information.", function() {
+                    showNextStep("Your public IP address is visible to every website you visit. This alone can be used to approximate your location.", function() {
                         const rtc = new RTCPeerConnection({iceServers: []});
                         rtc.createDataChannel('');
                         rtc.createOffer().then(offer => rtc.setLocalDescription(offer));
@@ -41,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                 const candidate = event.candidate.candidate;
                                 const localIP = candidate.split(' ')[4];
                                 addInfo("Local IP Address (WebRTC)", localIP, 'shocking');
-                                showNextStep("Your local IP address can be exposed through WebRTC. This could be used to track your device on a local network.", function() {
+                                showNextStep("Your local IP address is exposed through WebRTC. This is used to single out your device among all other users.", function() {
                                     if (navigator.geolocation) {
                                         navigator.geolocation.getCurrentPosition(function(position) {
                                             addInfo("Latitude", position.coords.latitude, 'shocking');
@@ -81,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
                                                             if (document.visibilityState === "visible") {
                                                                 document.title = "Are You Secure?";
                                                             } else {
-                                                                document.title = "I miss you, come back!";
+                                                                document.title = "I'm watching you.";
                                                             }
                                                         });
     
