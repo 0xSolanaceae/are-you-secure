@@ -1,0 +1,106 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #191724;
+    color: #e0def4;
+    margin: 0;
+    padding: 20px;
+    background-image: url('https://raw.githubusercontent.com/rose-pine/wallpapers/refs/heads/main/rose_pine_contourline.png');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(25, 23, 36, 0.7); /* Adjust the opacity as needed */
+    z-index: -1;
+}
+
+h1 {
+    color: #eb6f92;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#story {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: rgba(38, 35, 58, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#info {
+    max-width: 800px;
+    margin: 20px auto;
+    display: none;
+    background-color: rgba(38, 35, 58, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.info {
+    border-left: 5px solid #eb6f92;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: rgba(38, 35, 58, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 5px;
+}
+
+.info:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.shocking {
+    font-weight: bold;
+    color: #eb6f92;
+    font-size: 1.2em;
+}
+
+.less-important {
+    color: #908caa;
+}
+
+.message {
+    background-color: rgba(38, 35, 58, 0.8);
+    border-left: 5px solid #9ccfd8;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 5px;
+}
+
+.message:hover {
+    background-color: #3e3859;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    background-color: #9ccfd8;
+    color: #191724;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #31748f;
+    transform: scale(1.05);
+}
