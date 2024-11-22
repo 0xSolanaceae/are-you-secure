@@ -78,7 +78,8 @@ document.addEventListener("DOMContentLoaded", function() {
                                                     comment = "Your battery level is fine, you won't have to worry about it for a while.";
                                                 }
                                                 showNextStep(comment, function() {
-                                                    // Create a tracking element
+                                                    //FIXME: make Battery Level: 100% && Battery Charging: Yes highlighted red
+                                                    //FIXME: add an ending card with something like "if you have questions, you can reach me at @email"
                                                     const tracker = document.createElement("div");
                                                     tracker.style.position = "absolute";
                                                     tracker.style.width = "20px";
