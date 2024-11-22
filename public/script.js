@@ -53,75 +53,29 @@ document.addEventListener("DOMContentLoaded", function() {
                                         navigator.geolocation.getCurrentPosition(function(position) {
                                             addInfo("Latitude", position.coords.latitude, 'shocking');
                                             addInfo("Longitude", position.coords.longitude, 'shocking');
-                                            showNextStep("Your geolocation can be accessed if you grant permission. This reveals your exact physical location.", function() {
-                                                navigator.getBattery().then(function(battery) {
-                                                    const batteryLevel = Math.round(battery.level * 100);
-                                                    addInfo("Battery Charging", battery.charging ? "Yes" : "No", 'less-important');
-                                                    addInfo("Battery Level", `${batteryLevel}%`, 'less-important');
-                                                    let comment;
-                                                    if (batteryLevel > 80) {
-                                                        comment = "Nice job keeping your battery charged.";
-                                                    } else if (batteryLevel <= 40) {
-                                                        comment = "You might want to charge your device soon, you should get on that.";
-                                                    } else {
-                                                        comment = "Your battery level is fine, you won't have to worry about it for a while.";
-                                                    }
-                                                    showNextStep(comment, function() {
-                                                        // Create a tracking element
-                                                        const tracker = document.createElement("div");
-                                                        tracker.style.position = "absolute";
-                                                        tracker.style.width = "20px";
-                                                        tracker.style.height = "20px";
-                                                        tracker.style.border = "2px solid #9ccfd8";
-                                                        tracker.style.borderRadius = "50%";
-                                                        tracker.style.pointerEvents = "none";
-                                                        document.body.appendChild(tracker);
-    
-                                                        // Track mouse pointer
-                                                        document.addEventListener("mousemove", function(event) {
-                                                            tracker.style.left = `${event.clientX - 10 + window.scrollX}px`;
-                                                            tracker.style.top = `${event.clientY - 10 + window.scrollY}px`;
-                                                        });
-    
-                                                        // Change document title based on visibility
-                                                        document.addEventListener("visibilitychange", function() {
-                                                            if (document.visibilityState === "visible") {
-                                                                document.title = "Are You Secure?";
-                                                            } else {
-                                                                document.title = "I'm watching you.";
-                                                            }
-                                                        });
-    
-                                                        showNextStep("Now, let's track your mouse movements. Try switching to a new tab, then look at the top text.", function() {
-                                                            addInfo("User Agent", navigator.userAgent, 'less-important');
-                                                            addInfo("Platform", navigator.platform, 'less-important');
-                                                            addInfo("Language", navigator.language, 'less-important');
-                                                            addInfo("Cookies Enabled", navigator.cookieEnabled, 'less-important');
-                                                            addInfo("Screen Width", screen.width, 'less-important');
-                                                            addInfo("Screen Height", screen.height, 'less-important');
-                                                            addInfo("Window Width", window.innerWidth, 'less-important');
-                                                            addInfo("Window Height", window.innerHeight, 'less-important');
-                                                            addInfo("Timezone", Intl.DateTimeFormat().resolvedOptions().timeZone, 'less-important');
-                                                            storyDiv.innerHTML = "<p>As you can see, a lot of information about you is readily available to websites you visit. Protect your privacy by being aware of what you share online.</p>";
-                                                        });
-                                                    });
-                                                });
-                                            });
+                                            proceedWithBatteryStatus();
+                                        }, function(error) {
+                                            addInfo("Geolocation", "Not available, good job :)", 'shocking');
+                                            proceedWithBatteryStatus();
                                         });
                                     } else {
                                         addInfo("Geolocation", "Not supported", 'shocking');
+                                        proceedWithBatteryStatus();
+                                    }
+
+                                    function proceedWithBatteryStatus() {
                                         showNextStep("Your geolocation can be accessed if you grant permission. Now, let's check your battery status.", function() {
                                             navigator.getBattery().then(function(battery) {
-                                                const batteryLevel = battery.level * 100;
+                                                const batteryLevel = Math.round(battery.level * 100);
                                                 addInfo("Battery Charging", battery.charging ? "Yes" : "No", 'less-important');
                                                 addInfo("Battery Level", `${batteryLevel}%`, 'less-important');
                                                 let comment;
                                                 if (batteryLevel > 80) {
                                                     comment = "Nice job keeping your battery charged.";
                                                 } else if (batteryLevel <= 40) {
-                                                    comment = "You might want to charge your device soon, better get on that.";
+                                                    comment = "You might want to charge your device soon (if you aren't already), you should get on that.";
                                                 } else {
-                                                    comment = "Your battery level is fine, may want to pay attention to it soon.";
+                                                    comment = "Your battery level is fine, you won't have to worry about it for a while.";
                                                 }
                                                 showNextStep(comment, function() {
                                                     // Create a tracking element
@@ -129,32 +83,25 @@ document.addEventListener("DOMContentLoaded", function() {
                                                     tracker.style.position = "absolute";
                                                     tracker.style.width = "20px";
                                                     tracker.style.height = "20px";
-                                                    tracker.style.border = "2px solid red";
+                                                    tracker.style.border = "2px solid #9ccfd8";
                                                     tracker.style.borderRadius = "50%";
                                                     tracker.style.pointerEvents = "none";
                                                     document.body.appendChild(tracker);
-                                                
-                                                    // Track mouse pointer
-                                                    document.addEventListener("mousemove", function(event) {
-                                                        tracker.style.left = `${event.clientX - 10 + window.scrollX}px`;
-                                                        tracker.style.top = `${event.clientY - 10 + window.scrollY}px`;
-                                                    }, { once: true }); // Ensure this runs only once to set the initial position
-                                                
-                                                    // Continue tracking mouse pointer
+
                                                     document.addEventListener("mousemove", function(event) {
                                                         tracker.style.left = `${event.clientX - 10 + window.scrollX}px`;
                                                         tracker.style.top = `${event.clientY - 10 + window.scrollY}px`;
                                                     });
-                                                    // Change document title based on visibility
+
                                                     document.addEventListener("visibilitychange", function() {
                                                         if (document.visibilityState === "visible") {
                                                             document.title = "Are You Secure?";
                                                         } else {
-                                                            document.title = "I miss you, come back!";
+                                                            document.title = "I'm watching you.";
                                                         }
                                                     });
-    
-                                                    showNextStep("I can see everywhere you move your mouse. Try opening a new tab, then look at the top text.", function() {
+
+                                                    showNextStep("Now, let's track your mouse movements. Move your cursor around. Now, see where it says 'Are You Secure?' at the top of the tab? Switch to a new tab and take a look.", function() {
                                                         addInfo("User Agent", navigator.userAgent, 'less-important');
                                                         addInfo("Platform", navigator.platform, 'less-important');
                                                         addInfo("Language", navigator.language, 'less-important');
