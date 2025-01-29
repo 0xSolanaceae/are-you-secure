@@ -45,9 +45,10 @@ document.addEventListener("DOMContentLoaded", function() {
                         rtc.createOffer().then(offer => rtc.setLocalDescription(offer));
                         rtc.onicecandidate = function(event) {
                             if (event.candidate) {
-                                const {candidate} = event.candidate;
-                                const localIP = candidate.split(' ')[4];
+                                const candidate = event.candidate.candidate;
+                                const localIP = candidate.split(' ')[4].split(':')[0];
                                 addInfo("Local IP Address (WebRTC)", localIP, 'shocking');
+                                rtc.onicecandidate = null; // Prevent further calls
                                 showNextStep("Your local IP address is exposed through WebRTC. This is used to single out your device among all other users.", function() {
                                     if (navigator.geolocation) {
                                         navigator.geolocation.getCurrentPosition(function(position) {
