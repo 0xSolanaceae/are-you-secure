@@ -4,7 +4,7 @@ body {
     color: #e0def4;
     margin: 0;
     padding: 20px;
-    background-image: url('https://raw.githubusercontent.com/rose-pine/wallpapers/refs/heads/main/rose_pine_contourline.png');
+    background-image: url('assets/rose_pine_contourline.png');
     background-size: cover;
     background-attachment: fixed;
     overflow-x: hidden;
